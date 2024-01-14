@@ -1,0 +1,13 @@
+
+export global Logic {
+    callback update_time();
+    callback press_l_button();
+    callback press_r_button();
+
+    in-out property <int> start_time;
+    in-out property <int> paused_time;
+    in-out property <bool> is_running: false;
+    in-out property <bool> is_paused: false;
+    in property <string> time_str: "00:00:00";
+
+}

@@ -1,0 +1,17 @@
+import { Theme } from "theme.slint";
+import { FullTimer } from "timer.slint";
+import { Logic } from "logic.slint";
+export { Logic }
+
+export component Main_Window inherits Window {
+    title: "Custom Stopwatch cause f*ck chrome";
+    icon: @image-url("../assets/icon_placeholder.jpg");
+    min-height: 200px;
+    min-width: 300px;
+    background: Theme.palette.main-bg;
+
+
+    FullTimer {}
+    
+    // Update xd
+}
