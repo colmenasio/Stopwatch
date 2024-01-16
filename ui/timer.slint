@@ -34,6 +34,7 @@ component FullTimer inherits Rectangle{
         inactive when !Logic.is-running : {
             l_button.text: "Start Timer";
             r_button.text: "Reset Timer (NR)";
+            r_button.enabled: false;
             display.text: "--:--:--";
         }
         running when Logic.is-running && !Logic.is-paused : {
