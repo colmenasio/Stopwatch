@@ -1,5 +1,6 @@
 import { Theme } from "theme.slint";
 import { Logic } from "logic.slint";
+import { CustButton } from "custon_buttons.slint";
 export { FullTimer }
 
 
@@ -12,18 +13,6 @@ component Display inherits Rectangle {
          }
 }
 
-component TimerButton inherits Rectangle {
-    callback on_press();
-    background: Theme.palette.main-div;
-    in property <string> text;
-    Text {
-        text: text; 
-        color: Theme.palette.main-text;
-    }
-    area:= TouchArea { 
-        clicked => {parent.on-press();}
-    }
-}
 
 component FullTimer inherits Rectangle{
     
@@ -37,8 +26,8 @@ component FullTimer inherits Rectangle{
         HorizontalLayout {
             height: 30%;
             spacing: 10px;
-            l_button := TimerButton {text: "Start Timer"; on-press => {Logic.press-l-button()}}
-            r-button := TimerButton {text: "Reset Timer"; on-press => {Logic.press-r-button()}}
+            l_button := CustButton {text: "Start Timer"; on-press => {Logic.press-l-button()}}
+            r-button := CustButton {text: "Reset Timer"; on-press => {Logic.press-r-button()}}
         }
     }
     states [

@@ -1,15 +1,33 @@
 struct Palette {
     main-bg: brush,
+
     main-div: brush,
+    hovered-div: brush,
+    pressed-div: brush,
+
     main-border: brush,
-    main-text: brush
+    hovered-border: brush,
+    pressed-border: brush,
+
+    main-text: brush,
+    hovered-text: brush,
+    pressed-text: brush,
 }
 
 export global Theme {
     in property <Palette> palette: {
         main-bg: #293347,
+
         main-div: #152036,
+        hovered-div: #152036.brighter(20%),
+        pressed-div: #152036.darker(30%),
+
         main-border: #7e8695,
-        main-text: #c4d4f6
+        hovered-border: #7e8695.brighter(20%),
+        pressed-border: #7e8695.darker(30%),
+
+        main-text: #c4d4f6,
+        hovered-text: #c4d4f6.brighter(20%),
+        pressed-text: #c4d4f6.darker(30%),
     };
 }
