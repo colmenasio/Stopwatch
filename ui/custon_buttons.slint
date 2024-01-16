@@ -13,13 +13,13 @@ component CustButton inherits Rectangle {
         color: Theme.palette.main-text;
     }
     ta_comp := TouchArea {
-        clicked => {parent.on-press();}
+        clicked => {parent.enabled? parent.on-press(): {};}
     }
     states [
         disabled when ! enabled: {
-            background: Theme.palette.hovered-div.darker(50%);
-            border-color: Theme.palette.hovered-text.darker(50%);
-            text_comp.color: Theme.palette.hovered-text.darker(50%);
+            background: Theme.palette.disabled-div;
+            border-color: Theme.palette.disabled-border;
+            text_comp.color: Theme.palette.disabled-text;
         } 
         resting when ! ta_comp.has-hover: {
             background: Theme.palette.main-div;
