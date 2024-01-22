@@ -1,5 +1,7 @@
 struct Palette {
+    font-fam: string,
     main-bg: brush,
+    main-bg-grad: brush,
 
     main-div: brush,
     hovered-div: brush,
@@ -17,23 +19,27 @@ struct Palette {
     disabled-text: brush,
 }
 
+// Font candidates: "Sitka", "OCR A", "Candara", 
+// "Cascadia Code", "Consolas", "HP Simplified", "Lucida Sans"
 export global Theme {
     in property <Palette> palette: {
-        main-bg: #293347,
+        font-fam: "OCR A Extended",
+        main-bg: #121316,
+        main-bg-grad: @radial-gradient(circle, #0059ff45 30%, #0059ff00 80%),
 
-        main-div: #152036,
-        hovered-div: #152036.brighter(20%),
-        pressed-div: #152036.darker(30%),
-        disabled-div: #152036.darker(90%),
+        main-div: #1b212cc0,
+        hovered-div: #1b212cc0.brighter(20%),
+        pressed-div: #1b212cc0.darker(30%),
+        disabled-div: #1b212cc0.darker(90%),
 
-        main-border: #7e8695,
-        hovered-border: #7e8695.brighter(20%),
-        pressed-border: #7e8695.darker(30%),
-        disabled-border: #7e8695.darker(90%),
+        main-border: #3b4557,
+        hovered-border: #3b4557.brighter(20%),
+        pressed-border: #3b4557.darker(30%),
+        disabled-border: #3b4557.darker(90%),
 
-        main-text: #c4d4f6,
-        hovered-text: #c4d4f6.brighter(20%),
-        pressed-text: #c4d4f6.darker(30%),
-        disabled-text: #c4d4f6.darker(90%),
+        main-text: #b1c5f0,
+        hovered-text: #b1c5f0.brighter(20%),
+        pressed-text: #b1c5f0.darker(30%),
+        disabled-text: #b1c5f0.darker(90%),
     };
 }

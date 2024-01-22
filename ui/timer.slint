@@ -1,13 +1,18 @@
 import { Theme } from "theme.slint";
 import { Logic } from "logic.slint";
-import { CustButton } from "custon_buttons.slint";
+import { CustButton } from "custom_buttons.slint";
 export { FullTimer }
 
 
 component Display inherits Rectangle {
     background: Theme.palette.main-div;
     in property <string> text: "--:--:--";
+    border-color: Theme.palette.main-border;
+    border-width: 2px;
+    border-radius: 10px;
         Text {
+            font-size: 20px;
+            font-family: Theme.palette.font-fam;
             text: parent.text;
             color: Theme.palette.main-text;
          }
@@ -15,36 +20,50 @@ component Display inherits Rectangle {
 
 
 component FullTimer inherits Rectangle{
-    
+    background: Theme.palette.main-bg-grad;
     VerticalLayout {
+        padding: 0;
         spacing: 10px;
-        height: 50%;
-        width: 90%;
-        
-        display := Display {}
+        height: 100px;
 
         HorizontalLayout {
+            alignment: center;
+            display := Display {
+                height: 50px;
+                width: 250px;
+            }
+        }
+
+        HorizontalLayout {
+            alignment: center;
             height: 30%;
             spacing: 10px;
-            l_button := CustButton {text: "Start Timer"; on-press => {Logic.press-l-button()}}
-            r-button := CustButton {text: "Reset Timer"; on-press => {Logic.press-r-button()}}
+            l_button := CustButton {
+                width: 100px;
+                text: "Start Timer"; 
+                on-press => {Logic.press-l-button()}
+            }
+            r-button := CustButton {
+                width: 100px;
+                text: "Reset Timer"; 
+                on-press => {Logic.press-r-button()}}
         }
     }
     states [
         inactive when !Logic.is-running : {
             l_button.text: "Start Timer";
-            r_button.text: "Reset Timer (NR)";
+            r_button.text: "Reset Timer";
             r_button.enabled: false;
             display.text: "--:--:--";
         }
         running when Logic.is-running && !Logic.is-paused : {
-            l_button.text: "Start Timer";
-            r_button.text: "Reset Timer (R)";
+            l_button.text: "Pause Timer";
+            r_button.text: "Reset Timer";
             display.text: Logic.time-str;
         }
         paused when Logic.is-running && Logic.is-paused : {
-            l_button.text: "Start Timer";
-            r_button.text: "Reset Timer (PR)";
+            l_button.text: "Resume Timer";
+            r_button.text: "Reset Timer";
             display.text: Logic.time-str;
         }
 
