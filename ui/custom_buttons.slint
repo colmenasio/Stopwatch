@@ -1,0 +1,51 @@
+import { Theme } from "theme.slint";
+export { CustButton }
+
+component CustButton inherits Rectangle {
+    in property <bool> enabled: true;
+    in property <bool> is_pressed: false;
+    in property <string> text <=> text_comp.text;
+
+    callback on_press <=> touch_comp.clicked;
+
+    style :=  Rectangle{
+        animate background { duration: 150ms; }
+        animate border-color { duration: 150ms; }
+        border-width: 2px;
+        border-radius: 5px;
+    }
+
+    text_comp := Text {
+            animate color { duration: 150ms; }
+            color: Theme.palette.main-text;
+            font-family: Theme.palette.font-fam;
+        }
+
+    touch_comp := TouchArea {
+        width: 100%;
+        height: 100%;
+    }
+    states [
+        disabled when ! enabled: {
+            style.background: Theme.palette.disabled-div;
+            style.border-color: Theme.palette.disabled-border;
+            text_comp.color: Theme.palette.disabled-text;
+        }
+        pressed when is-pressed: {
+            style.background: Theme.palette.pressed-div;
+            style.border-color: Theme.palette.pressed-border;
+            text_comp.color: Theme.palette.pressed-text;
+        }
+        resting when ! touch_comp.has-hover: {
+            style.background: Theme.palette.main-div;
+            style.border-color: Theme.palette.main-border;
+            text_comp.color: Theme.palette.main-text;
+        }
+        hovered when touch_comp.has-hover: {
+            style.background: Theme.palette.hovered-div;
+            style.border-color: Theme.palette.hovered-border;
+            text_comp.color: Theme.palette.hovered-text;
+        }
+    ]
+    
+}
