@@ -1,0 +1,35 @@
+import { Theme } from "theme.slint";
+import { CustButton } from "custom_buttons.slint";
+export { OptionBar }
+
+
+
+component OptionBar inherits Rectangle {
+    out property <int> selected_page: 0;
+    
+    height: 22px;
+
+    style := Rectangle{
+        border-color: Theme.palette.main-border;
+        border-width: 2px;
+    }
+
+    HorizontalLayout {
+        padding: 3px;
+        alignment: center;
+        height: 100%;
+        spacing: 10px;
+        CustButton {
+            width: 100px;
+            text: "Stopwatch";
+            on-press => {root.selected-page = 0}
+            is-pressed: {root.selected-page == 0}
+        }
+        CustButton {
+            width: 100px;
+            text: "Countdown";
+            on-press => {root.selected-page = 1}
+            is-pressed: {root.selected-page == 1}
+        }
+    }
+}

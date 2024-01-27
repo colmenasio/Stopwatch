@@ -1,17 +1,24 @@
 import { Theme } from "theme.slint";
 import { FullTimer } from "timer.slint";
+import { Countdown } from "countdown.slint";
+import { OptionBar } from "option_bar.slint";
 import { Logic } from "logic.slint";
 export { Logic }
 
 export component Main_Window inherits Window {
     title: "Custom Stopwatch cause f*ck chrome";
     icon: @image-url("../assets/icon_placeholder.jpg");
-    min-height: 180px;
+    min-height: 200px;
     min-width: 300px;
-    background: Theme.palette.main-bg;
+    preferred-height: 200px;
+    preferred-width: 300px;
+    // background: Theme.palette.main-bg;
 
-
-    FullTimer {}
+    VerticalLayout {
+        main_bar := OptionBar{}
+        if(main-bar.selected-page == 0) : FullTimer{}
+        if(main-bar.selected-page == 1) : Countdown{}
+    }
     
     // Update xd
 }
