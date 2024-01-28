@@ -1,19 +1,27 @@
 import { Theme } from "theme.slint";
-import { Logic } from "logic.slint";
 import { CustButton } from "custom_buttons.slint";
-export { FullTimer }
+export { FullTimer, TLogic }
 
+global TLogic {
+    callback update_time();
+    callback press_l_button();
+    callback press_r_button();
+
+    in-out property <bool> is_running: false;
+    in-out property <bool> is_paused: false;
+    in property <string> time_str: "00:00:00";
+
+}
 
 component Display inherits Rectangle {
     background: Theme.palette.main-div;
-    in property <string> text: "--:--:--";
+    in property <string> text <=> t.text;
     border-color: Theme.palette.main-border;
     border-width: 2px;
     border-radius: 10px;
-        Text {
+        t:= Text {
             font-size: 20px;
             font-family: Theme.palette.font-fam;
-            text: parent.text;
             color: Theme.palette.main-text;
          }
 }
@@ -31,6 +39,7 @@ component FullTimer inherits Rectangle{
             display := Display {
                 height: 50px;
                 width: 250px;
+                text: "--:--:--";
             }
         }
 
@@ -41,30 +50,30 @@ component FullTimer inherits Rectangle{
             l_button := CustButton {
                 width: 100px;
                 text: "Start Timer"; 
-                on-press => {Logic.press-l-button()}
+                on-press => {TLogic.press-l-button()}
             }
             r-button := CustButton {
                 width: 100px;
                 text: "Reset Timer"; 
-                on-press => {Logic.press-r-button()}}
+                on-press => {TLogic.press-r-button()}}
         }
     }
     states [
-        inactive when !Logic.is-running : {
+        inactive when !TLogic.is-running : {
             l_button.text: "Start Timer";
             r_button.text: "Reset Timer";
             r_button.enabled: false;
             display.text: "--:--:--";
         }
-        running when Logic.is-running && !Logic.is-paused : {
+        running when TLogic.is-running && !TLogic.is-paused : {
             l_button.text: "Pause Timer";
             r_button.text: "Reset Timer";
-            display.text: Logic.time-str;
+            display.text: TLogic.time-str;
         }
-        paused when Logic.is-running && Logic.is-paused : {
+        paused when TLogic.is-running && TLogic.is-paused : {
             l_button.text: "Resume Timer";
             r_button.text: "Reset Timer";
-            display.text: Logic.time-str;
+            display.text: TLogic.time-str;
         }
 
     ]
