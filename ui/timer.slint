@@ -50,7 +50,7 @@ component FullTimer inherits Rectangle{
             l_button := CustButton {
                 width: 100px;
                 text: "Start Timer"; 
-                on-press => {TLogic.press-l-button()}
+                on-press => {TLogic.press-l-button(); TLogic.update-time()}
             }
             r-button := CustButton {
                 width: 100px;

@@ -6,10 +6,11 @@ global CLogic {
     callback update_time();
     callback press_l_button();
     callback press_r_button();
+    callback add_time_to_target(int);
 
-    in-out property <int> target: 0;
     in-out property <bool> is_running: false;
     in-out property <bool> is_paused: false;
+    in property <string> inactive_str: "00:00:00";
     in property <string> time_str: "00:00:00";
     
 }
@@ -32,21 +33,21 @@ component Display inherits Rectangle {
             CustButton {
                 text: "+"; show-style: false; enabled: allow-buttons;
                 on-press => {
-                    CLogic.target= min(CLogic.target+3600, 86399);
+                    CLogic.add-time-to-target(3600);
                     CLogic.update-time()
                     }
             }
             CustButton {
                 text: "+"; show-style: false; enabled: allow-buttons;
                 on-press => {
-                    CLogic.target= min(CLogic.target+60, 86399);
+                    CLogic.add-time-to-target(60);
                     CLogic.update-time()
                     }
             }
             CustButton {
                 text: "+"; show-style: false; enabled: allow-buttons;
                 on-press => {
-                    CLogic.target= min(CLogic.target+1, 86399);
+                    CLogic.add-time-to-target(1);
                     CLogic.update-time()
                     }
             }
@@ -63,21 +64,21 @@ component Display inherits Rectangle {
             CustButton {
                 text: "-"; show-style: false; enabled: allow-buttons;
                 on-press => {
-                    CLogic.target= max(CLogic.target -3600, 0);
+                    CLogic.add-time-to-target(-3600);
                     CLogic.update-time()
                     }
             }
             CustButton {
                 text: "-"; show-style: false; enabled: allow-buttons;
                 on-press => {
-                    CLogic.target= max(CLogic.target -60, 0);
+                    CLogic.add-time-to-target(-60);
                     CLogic.update-time()
                     }
             }
             CustButton {
                 text: "-"; show-style: false; enabled: allow-buttons;
                 on-press => {
-                    CLogic.target= max(CLogic.target -1, 0);
+                    CLogic.add-time-to-target(-1);
                     CLogic.update-time()
                     }
             }
@@ -123,7 +124,7 @@ component Countdown inherits Rectangle{
             r_button.text: "Reset Count";
             r_button.enabled: false;
             display.allow-buttons: true;
-            display.text: "00:00:00";
+            display.text: CLogic.inactive-str;
         }
         running when CLogic.is-running && !CLogic.is-paused : {
             l_button.text: "Pause Count";

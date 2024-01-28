@@ -1,10 +1,18 @@
 import { Theme } from "theme.slint";
 import { FullTimer, TLogic } from "timer.slint";
-import { Countdown } from "countdown.slint";
+import { Countdown, CLogic } from "countdown.slint";
 import { OptionBar } from "option_bar.slint";
-export { TLogic }
+export { Main_Window, MainLogic, TLogic, CLogic }
 
-export component Main_Window inherits Window {
+global MainLogic {
+    callback update-all();
+    update-all() => {
+        TLogic.update-time();
+        CLogic.update-time();
+    }
+}
+
+component Main_Window inherits Window {
     title: "Custom Stopwatch cause f*ck chrome";
     icon: @image-url("../assets/icon_placeholder.jpg");
     min-height: 200px;
