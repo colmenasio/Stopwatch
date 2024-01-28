@@ -21,12 +21,14 @@ component OptionBar inherits Rectangle {
         spacing: 10px;
         CustButton {
             width: 100px;
-            text: "Stopwatch";
+            border-width: 0px;
+            text: "Timer";
             on-press => {root.selected-page = 0}
             is-pressed: {root.selected-page == 0}
         }
         CustButton {
             width: 100px;
+            border-width: 0px;
             text: "Countdown";
             on-press => {root.selected-page = 1}
             is-pressed: {root.selected-page == 1}
