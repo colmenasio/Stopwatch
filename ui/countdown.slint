@@ -10,6 +10,7 @@ global CLogic {
 
     in-out property <bool> is_running: false;
     in-out property <bool> is_paused: false;
+    in property <bool> is_finished: false;
     in property <string> inactive_str: "00:00:00";
     in property <string> time_str: "00:00:00";
     
@@ -27,7 +28,8 @@ component Display inherits Rectangle {
         alignment: center;
         width: 100px;
         HorizontalLayout {
-            visible: allow-buttons;
+            opacity: allow-buttons? 100%: 70%;
+            animate opacity { duration: 150ms; }
             spacing: 30px;
             alignment: center;
             CustButton {
@@ -58,7 +60,8 @@ component Display inherits Rectangle {
             color: Theme.palette.main-text;
          }
         HorizontalLayout {
-            visible: allow-buttons;
+            opacity: allow-buttons? 100%: 70%;
+            animate opacity { duration: 150ms; }
             spacing: 30px;
             alignment: center;
             CustButton {
@@ -110,7 +113,7 @@ component Countdown inherits Rectangle{
             l_button := CustButton {
                 width: 100px;
                 text: "Start Count"; 
-                on-press => {CLogic.press-l-button()}
+                on-press => {CLogic.press-l-button(); CLogic.update-time()}
             }
             r-button := CustButton {
                 width: 100px;
@@ -126,6 +129,13 @@ component Countdown inherits Rectangle{
             display.allow-buttons: true;
             display.text: CLogic.inactive-str;
         }
+        finished when CLogic.is-finished : {
+            l_button.text: "Pause Count";
+            r_button.text: "Reset Count";
+            display.allow-buttons: false;
+            l_button.enabled: false;
+            display.text: CLogic.time-str;
+        }
         running when CLogic.is-running && !CLogic.is-paused : {
             l_button.text: "Pause Count";
             r_button.text: "Reset Count";
@@ -138,6 +148,5 @@ component Countdown inherits Rectangle{
             display.allow-buttons: false;
             display.text: CLogic.time-str;
         }
-
     ]
 }

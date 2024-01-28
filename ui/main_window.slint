@@ -21,11 +21,29 @@ component Main_Window inherits Window {
     preferred-width: 300px;
     // background: Theme.palette.main-bg;
 
+    
     VerticalLayout {
         main_bar := OptionBar{}
-        if(main-bar.selected-page == 0) : FullTimer{}
-        if(main-bar.selected-page == 1) : Countdown{}
+
+        Rectangle {
+            clip: true;
+            // x: main-view.border-radius / 2;
+            // y: main-view.border-radius / 2;
+            // width: main-view.width - main-view.border-radius;
+            // height: main-view.height - main-view.border-radius;
+
+            FullTimer {
+                x: main-bar.selected-page == 0 ? 0 : main-bar.selected-page >= 0 ? - self.width - 1px : parent.width + 1px;
+                animate x { duration: 200ms; easing: ease;}
+            }
+
+            Countdown {
+                x: main-bar.selected-page == 1 ? 0 : main-bar.selected-page >= 1 ? - self.width - 1px : parent.width + 1px;
+                animate x { duration: 200ms; easing: ease;}
+            }
+        }
+        // if(main-bar.selected-page == 0) : FullTimer{}
+        // if(main-bar.selected-page == 1) : Countdown{}
     }
     
-    // Update xd
 }
