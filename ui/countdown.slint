@@ -1,7 +1,142 @@
-import { TabBarImpl } from "std-widgets.slint";
-export { Countdown }
+import { Theme } from "theme.slint";
+import { CustButton } from "custom_buttons.slint";
+export { Countdown, CLogic }
+
+global CLogic {
+    callback update_time();
+    callback press_l_button();
+    callback press_r_button();
+
+    in-out property <int> target: 0;
+    in-out property <bool> is_running: false;
+    in-out property <bool> is_paused: false;
+    in property <string> time_str: "00:00:00";
+    
+}
+
+component Display inherits Rectangle {
+    in property <string> text <=> t.text;
+    in property <bool> allow_buttons: true;
+    background: Theme.palette.main-div;
+    border-color: Theme.palette.main-border;
+    border-width: 2px;
+    border-radius: 10px;
+
+    VerticalLayout {
+        alignment: center;
+        width: 100px;
+        HorizontalLayout {
+            visible: allow-buttons;
+            spacing: 30px;
+            alignment: center;
+            CustButton {
+                text: "+"; show-style: false; enabled: allow-buttons;
+                on-press => {
+                    CLogic.target= min(CLogic.target+3600, 86399);
+                    CLogic.update-time()
+                    }
+            }
+            CustButton {
+                text: "+"; show-style: false; enabled: allow-buttons;
+                on-press => {
+                    CLogic.target= min(CLogic.target+60, 86399);
+                    CLogic.update-time()
+                    }
+            }
+            CustButton {
+                text: "+"; show-style: false; enabled: allow-buttons;
+                on-press => {
+                    CLogic.target= min(CLogic.target+1, 86399);
+                    CLogic.update-time()
+                    }
+            }
+        }
+        t:= Text {
+            font-size: 20px;
+            font-family: Theme.palette.font-fam;
+            color: Theme.palette.main-text;
+         }
+        HorizontalLayout {
+            visible: allow-buttons;
+            spacing: 30px;
+            alignment: center;
+            CustButton {
+                text: "-"; show-style: false; enabled: allow-buttons;
+                on-press => {
+                    CLogic.target= max(CLogic.target -3600, 0);
+                    CLogic.update-time()
+                    }
+            }
+            CustButton {
+                text: "-"; show-style: false; enabled: allow-buttons;
+                on-press => {
+                    CLogic.target= max(CLogic.target -60, 0);
+                    CLogic.update-time()
+                    }
+            }
+            CustButton {
+                text: "-"; show-style: false; enabled: allow-buttons;
+                on-press => {
+                    CLogic.target= max(CLogic.target -1, 0);
+                    CLogic.update-time()
+                    }
+            }
+        }
+    }
+}
+
 
 component Countdown inherits Rectangle{
-    background: #9d3f25;
-    Text {text: "WIP";}
+    background: Theme.palette.main-bg-grad;
+    VerticalLayout {
+        padding: 0;
+        spacing: 10px;
+        height: 100px;
+
+        HorizontalLayout {
+            alignment: center;
+            display := Display {
+                text: "--:--:--";
+                height: 50px;
+                width: 250px;
+            }
+        }
+
+        HorizontalLayout {
+            alignment: center;
+            height: 30%;
+            spacing: 10px;
+            l_button := CustButton {
+                width: 100px;
+                text: "Start Count"; 
+                on-press => {CLogic.press-l-button()}
+            }
+            r-button := CustButton {
+                width: 100px;
+                text: "Reset Count"; 
+                on-press => {CLogic.press-r-button()}}
+        }
+    }
+    states [
+        inactive when !CLogic.is-running : {
+            l_button.text: "Start Count";
+            r_button.text: "Reset Count";
+            r_button.enabled: false;
+            display.allow-buttons: true;
+            display.text: "00:00:00";
+        }
+        running when CLogic.is-running && !CLogic.is-paused : {
+            l_button.text: "Pause Count";
+            r_button.text: "Reset Count";
+            display.allow-buttons: false;
+            display.text: CLogic.time-str;
+        }
+        paused when CLogic.is-running && CLogic.is-paused : {
+            l_button.text: "Resume Count";
+            r_button.text: "Reset Count";
+            display.allow-buttons: false;
+            display.text: CLogic.time-str;
+        }
+
+    ]
 }
