@@ -1,4 +1,6 @@
 use std::time;
+use crate::common;
+
 
 pub struct SimpleTimer {
     start_time: time::Instant,
@@ -41,34 +43,12 @@ impl SimpleTimer {
         self.is_paused = false;
     }
 
-    pub fn get_timer_display(&self)->String{
+    pub fn get_display(&self) ->String{
         let seconds_elapsed = if self.is_paused{
             (self.pause_start_time-self.start_time).as_secs()-self.total_paused_time
         } else {
             (time::Instant::now()-self.start_time).as_secs()-self.total_paused_time
         };
-        SimpleTimer::stringify_seconds(seconds_elapsed)
-    }
-
-    fn stringify_seconds(seconds: u64)->String{
-        let hhmmss: [u8; 3] = [
-            u8::try_from(seconds/3600).expect("wtf how did you overflow the hours?"),
-            u8::try_from((seconds/60)%60).unwrap(),
-            u8::try_from(seconds%60).unwrap(),
-        ];
-        hhmmss.map(|x| format!("{:0>2}", x.to_string())).join(":")
-    }
-}
-
-#[cfg(test)]
-mod tests{
-    use super::*;
-
-    #[test]
-    fn test_stringify_seconds(){
-        assert_eq!(SimpleTimer::stringify_seconds(100), "00:01:40".to_string());
-        assert_eq!(SimpleTimer::stringify_seconds(0), "00:00:00".to_string());
-        assert_eq!(SimpleTimer::stringify_seconds(3600), "01:00:00".to_string());
-        assert_eq!(SimpleTimer::stringify_seconds(4005), "01:06:45".to_string());
+        common::stringify_seconds(seconds_elapsed)
     }
 }
