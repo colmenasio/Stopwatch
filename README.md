@@ -8,6 +8,6 @@ Built as a personal project, for mainly 2 purposes:
 <!-- Roadmap -->
 # Roadmap
 - [x] Alpha
-- [ ] Beautify the gui
+- [x] Beautify the gui
   - [ ] Adding customization options / aditional palletes
-- [ ] Add Countdown functionality
+- [x] Add Countdown functionality
