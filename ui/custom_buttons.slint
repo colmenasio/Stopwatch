@@ -1,7 +1,10 @@
 import { Theme } from "theme.slint";
 export { CustButton }
 
-component CustButton inherits Rectangle {
+component CustButton {
+    in property <length> border-width <=> style.border-width;
+    in property <bool> show-style: true;
+    in property <bool> show-text: true;
     in property <bool> enabled: true;
     in property <bool> is_pressed: false;
     in property <string> text <=> text_comp.text;
@@ -9,6 +12,7 @@ component CustButton inherits Rectangle {
     callback on_press <=> touch_comp.clicked;
 
     style :=  Rectangle{
+        visible: show-style;
         animate background { duration: 150ms; }
         animate border-color { duration: 150ms; }
         border-width: 2px;
@@ -16,10 +20,11 @@ component CustButton inherits Rectangle {
     }
 
     text_comp := Text {
-            animate color { duration: 150ms; }
-            color: Theme.palette.main-text;
-            font-family: Theme.palette.font-fam;
-        }
+        visible: show-text;
+        animate color { duration: 150ms; }
+        color: Theme.palette.main-text;
+        font-family: Theme.palette.font-fam;
+    }
 
     touch_comp := TouchArea {
         width: 100%;
