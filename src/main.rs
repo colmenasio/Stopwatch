@@ -1,6 +1,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod simple_timer;
+mod simple_countdown;
 
 use simple_timer::SimpleTimer;
 use std::cell::RefCell;
@@ -18,9 +19,9 @@ fn main() {
 
     let weak = main_window.as_weak();
     let simple_timer = main_simple_timer.clone();
-    main_window.global::<Logic>().on_press_l_button(move || {
+    main_window.global::<TLogic>().on_press_l_button(move || {
         let app = weak.unwrap();
-        let logic_module = app.global::<Logic>();
+        let logic_module = app.global::<TLogic>();
         let mut borrowed_timer = simple_timer.borrow_mut();
         if ! logic_module.get_is_running() {
             borrowed_timer.start_timer();
@@ -35,9 +36,9 @@ fn main() {
 
 
     let weak = main_window.as_weak();
-    main_window.global::<Logic>().on_press_r_button(move || {
+    main_window.global::<TLogic>().on_press_r_button(move || {
         let app = weak.unwrap();
-        let logic_module = app.global::<Logic>();
+        let logic_module = app.global::<TLogic>();
         if logic_module.get_is_running() {
             logic_module.set_is_running(false);
             logic_module.set_is_paused(false);
@@ -50,7 +51,7 @@ fn main() {
     let timer = Timer::default();
     timer.start(TimerMode::Repeated, time::Duration::from_secs(1), move || {
         let app = weak.unwrap();
-        let logic_module = app.global::<Logic>();
+        let logic_module = app.global::<TLogic>();
         let borrowed_timer = simple_timer.borrow();
         if ! logic_module.get_is_running() {
             return
