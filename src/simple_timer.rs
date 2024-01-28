@@ -8,8 +8,8 @@ pub struct SimpleTimer {
 }
 
 impl SimpleTimer {
-    pub fn new()->SimpleTimer{
-        SimpleTimer{
+    pub fn new()-> SimpleTimer {
+        SimpleTimer {
             start_time: time::Instant::now(),
             pause_start_time: time::Instant::now(),
             is_paused: false,
